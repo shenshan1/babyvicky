@@ -31,8 +31,11 @@ if st.button("Submit"):
 
 # Admin view
 if st.checkbox("👀 Show List of Interested Singers"):
-    if os.path.exists(DATA_FILE):
-        data = pd.read_csv(DATA_FILE)
-        st.dataframe(data)
+    if os.path.exists(DATA_FILE) and os.path.getsize(DATA_FILE) > 0:
+        try:
+            data = pd.read_csv(DATA_FILE)
+            st.dataframe(data)
+        except pd.errors.EmptyDataError:
+            st.info("The file exists but has no data yet.")
     else:
         st.info("No entries yet.")
